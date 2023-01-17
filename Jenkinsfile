@@ -17,10 +17,12 @@ pipeline{
     
 
     // cleaning
-    post{
-        always{
-            sh 'docker logout'
-            sh 'docker rmi $(docker images -q -f dangling=true)'
+    post {
+        always {
+            // remove dangling images 
+            sh 'docker rmi -f $(docker images -q -f "dangling=true")'
+            // remove volumes created
+            sh 'docker volume prune -f'
         }
     }
 
