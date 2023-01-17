@@ -5,6 +5,7 @@ pipeline{
     }
     stages{
         stage('frontend'){  
+            agent any
             steps{
                 dir("contacts-frontend"){
                     echo 'installing depends'
