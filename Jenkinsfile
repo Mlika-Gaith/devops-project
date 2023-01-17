@@ -4,12 +4,6 @@ pipeline{
         DOCKERHUB_CREDENTIALS=credentials('DockerHub')
     }
     stages{
-        stage ('docker login'){
-            steps{
-                 powershell -Command "{ echo $env:DOCKERHUB_CREDENTIALS_PSW | docker login -u $env:DOCKERHUB_CREDENTIALS_USR --password-stdin }"
-            }
-            
-        }
         stage('installing frontend dependencies'){  
             steps{
                 dir("contacts-frontend"){
