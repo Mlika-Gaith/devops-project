@@ -1,11 +1,10 @@
 pipeline{
-    agent none
+    agent any
     environment{
         DOCKERHUB_CREDENTIALS=crendentials('DockerHub')
     }
     stages{
         stage('frontend'){  
-            agent any
             steps{
                 dir("contacts-frontend"){
                     echo 'installing depends'
