@@ -5,17 +5,6 @@ pipeline{
     }
     stages{
         stage("frontend"){
-            agent any 
-            when{
-                // PollSCM triggers a new build if changes are detected 
-                // in contacts-frontend
-                // ** matches any number of directoires
-                // *.* : any filename,any extension
-                changeset "**/contacts-frontend/*.*"
-                sh "echo change in frontend"
-                // execute before agent any
-                beforeAgent true
-            }
             steps{
                 dir("contacts-frontend"){
                     stages{
