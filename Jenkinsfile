@@ -4,6 +4,12 @@ pipeline{
         DOCKERHUB_CREDENTIALS=crendentials('DockerHub')
     }
     stages{
+        stage ('docker login'){
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+            
+        }
         stage('installing frontend dependencies'){  
             steps{
                 dir("contacts-frontend"){
@@ -30,13 +36,7 @@ pipeline{
             }
             
         }
-        stage ('docker login'){
-            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        }
                    
-                
-                
-            
         
     }
     
