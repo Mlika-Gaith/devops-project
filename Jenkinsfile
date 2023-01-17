@@ -6,7 +6,9 @@ pipeline{
     stages{
         stage ('docker login'){
             steps{
+                withEnv(["DOCKERHUB_CREDENTIALS_PSW=${DOCKERHUB_CREDENTIALS_PSW}", "DOCKERHUB_CREDENTIALS_USR=${DOCKERHUB_CREDENTIALS_USR}"]){
                 powershell -Command "echo $env:DOCKERHUB_CREDENTIALS_PSW | docker login -u $env:DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                }
             }
             
         }
