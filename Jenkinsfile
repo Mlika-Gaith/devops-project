@@ -1,14 +1,12 @@
 pipeline{
-    agent {
-        label 'windows'
-    }
+    agent any
     environment{
         DOCKERHUB_CREDENTIALS=credentials('DockerHub')
     }
     stages{
         stage ('docker login'){
             steps{
-                powershell -Command "& { echo $env:DOCKERHUB_CREDENTIALS_PSW | docker login -u $env:DOCKERHUB_CREDENTIALS_USR --password-stdin }"
+                powershell -Command 'echo $env:DOCKERHUB_CREDENTIALS_PSW | docker login -u $env:DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
             
         }
