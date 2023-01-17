@@ -20,7 +20,7 @@ pipeline{
     post{
         always{
             sh 'docker logout'
-            sh 'docker rmi -f ${oldImageID}'
+            sh 'docker rmi $(docker images -q -f dangling=true)'
         }
     }
 
