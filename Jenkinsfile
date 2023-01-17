@@ -5,24 +5,18 @@ pipeline{
     }
     stages{
         stage("frontend"){
-            steps{
-                dir("contacts-frontend"){
-                    stages{
-                        stage("install dependencies"){
-                            sh 'npm install'
-                        }
-                        stage("build"){
-                            sh 'ng build --prod'
-                        }
-                        stage("test"){
-                            sh 'ng test'
-                        }
-                        stage("build docker image"){
-                            sh "docker build -t ghaithmlika/contacts-frontend ."
-                        }
-                        stage ("docker push front image"){
-                            sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-                        }
+            dir("contacts-frontend"){
+                steps{
+                    sh 'echo installing dependencies'
+                    sh 'npm install'
+                    sh 'echo building for production'
+                    sh 'ng build --prod'
+                    sh 'echo testing'      
+                    sh 'ng test'
+                    sh 'echo building docker image' 
+                    sh "docker build -t ghaithmlika/contacts-frontend ."
+                    sh 'echo pushing frontend image to dockerhub'
+                    sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"   
                     }
                 }
             }
