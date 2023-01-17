@@ -3,9 +3,10 @@ pipeline{
     environment{
         DOCKERHUB_CREDENTIALS=crendentials('DockerHub')
     }
+    dir('contacts-frontend'){
     stages{
         stage('frontend'){
-            dir('contacts-frontend'){
+            
                 steps{
                     echo 'installing depends'
                     sh 'npm install'
