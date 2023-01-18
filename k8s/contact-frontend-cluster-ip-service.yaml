@@ -1,0 +1,18 @@
+# make app accessible in browser
+apiVersion: v1
+kind: Service
+metadata:
+  name: contact-frontend-cluster-ip-service
+spec:
+  # external service to make app accessible in browser
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: contacts-frontend
+  ports:
+    - protocol: TCP
+      # service port
+      port: 3000
+      # port of pods the requests will be forwarded to
+      targetPort: 3000
+      #port on which app will be accessible through browser
+      nodePort: 30100

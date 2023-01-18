@@ -1,0 +1,66 @@
+# deployment and service in 1 file
+# labels are additional identifiers to components
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    app: mongo
+spec:
+  # how many replicas of the pod do you want to create
+  replicas: 1
+  # identify a set of resources
+  selector:
+    # defines all pods that match to this label belong to this deployment
+    matchLabels:
+      app: mongo
+  # blueprint for pods
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        # container name
+        - name: mongodb
+          # container image
+          image: mongo:4.0.0
+          # container port
+          ports:
+            - containerPort: 27017
+          # pass database credentials from secret file
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-password
+# when creating replicas every pod will have a unique name
+# they can share the same label
+# we can identify all the pod replicas of the same application using labels they share
+# for pods it's required for other components it's optional
+
+# service
+# multiple yaml configurations ---
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  # forward the request to a pod
+  # which pod the requests will be forwarded to
+  # here we need mongo pods
+  selector:
+    app.kubernetes.io/name: mongo
+  ports:
+    - protocol: TCP
+      # service port
+      port: 27017
+      # port of pods the requests will be forwarded to
+      targetPort: 27017
