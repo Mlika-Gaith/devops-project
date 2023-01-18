@@ -14,7 +14,6 @@ pipeline{
         stage('installing frontend dependencies'){  
             steps{
                 dir("contacts-frontend"){
-                    bat 'echo installing depends'
                     bat 'npm install'
                 }
 
@@ -23,15 +22,13 @@ pipeline{
         stage ('building frontend for production'){
             steps{
                 dir("contacts-frontend"){
-                    bat 'echo building frontend'
                     bat 'ng build --prod'
                 }
             }
         }
         stage('testing frontend'){
             steps{
-                dir ("contacts-frontend"){
-                    bat 'echo testing'      
+                dir ("contacts-frontend"){      
                     bat 'ng test'
                 }
             }
@@ -87,9 +84,11 @@ pipeline{
                    
         
     }
+    // cleaning
     post{
         always{
             bat 'docker logout'
+            // remove dangling images 
             bat 'docker rmi -f ${oldImageID}'
         }
     }

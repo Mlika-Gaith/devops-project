@@ -17,7 +17,7 @@ spec:
       containers:
         - name: contacts-api
           #pod image must be pulled from my dockerhub
-          image: ghaithmlika/contacts-backend
+          image: ghaithmlika/contact-backend
           ports:
             - containerPort: 8080
           env:
